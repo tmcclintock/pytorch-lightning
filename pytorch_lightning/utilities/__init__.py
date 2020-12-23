@@ -21,7 +21,7 @@ from typing import Union
 import numpy
 import torch
 
-from pytorch_lightning.utilities.apply_func import move_data_to_device  # noqa: F401
+from pytorch_lightning.utilities.apply_func import _TORCHTEXT_AVAILABLE, move_data_to_device  # noqa: F401
 from pytorch_lightning.utilities.distributed import (  # noqa: F401
     AllGatherGrad,
     rank_zero_info,
@@ -59,13 +59,13 @@ _NATIVE_AMP_AVAILABLE = _module_available("torch.cuda.amp") and hasattr(torch.cu
 _OMEGACONF_AVAILABLE = _module_available("omegaconf")
 _HYDRA_AVAILABLE = _module_available("hydra")
 _HOROVOD_AVAILABLE = _module_available("horovod.torch")
-
-_TPU_AVAILABLE = XLADeviceUtils.tpu_device_exists()
 _FAIRSCALE_AVAILABLE = platform.system() != 'Windows' and _module_available('fairscale.nn.data_parallel')
 _RPC_AVAILABLE = platform.system() != 'Windows' and _module_available('torch.distributed.rpc')
 _GROUP_AVAILABLE = platform.system() != 'Windows' and _module_available('torch.distributed.group')
 _FAIRSCALE_PIPE_AVAILABLE = _FAIRSCALE_AVAILABLE and LooseVersion(torch.__version__) >= LooseVersion("1.6.0")
 _BOLTS_AVAILABLE = _module_available('pl_bolts')
+
+_TPU_AVAILABLE = XLADeviceUtils.tpu_device_exists()
 
 FLOAT16_EPSILON = numpy.finfo(numpy.float16).eps
 FLOAT32_EPSILON = numpy.finfo(numpy.float32).eps
